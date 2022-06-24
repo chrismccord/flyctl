@@ -423,6 +423,14 @@ type AppCompact struct {
 	AppURL          string
 	Organization    *OrganizationBasic
 	PlatformVersion string
+	PostgresAppRole *struct {
+		Name string
+	}
+}
+
+func (app *AppCompact) IsPostgresApp() bool {
+	// check app.PostgresAppRole.Name == "postgres_cluster"
+	return app.PostgresAppRole != nil && app.PostgresAppRole.Name == "postgres_cluster"
 }
 
 type AppInfo struct {
@@ -459,6 +467,13 @@ type AppPostgres struct {
 		Databases *[]PostgresClusterDatabase
 		Users     *[]PostgresClusterUser
 	}
+	PlatformVersion string
+	Services        []Service
+}
+
+func (app *AppPostgres) IsPostgresApp() bool {
+	// check app.PostgresAppRole.Name == "postgres_cluster"
+	return app.PostgresAppRole != nil && app.PostgresAppRole.Name == "postgres_cluster"
 }
 
 type AppStatus struct {
